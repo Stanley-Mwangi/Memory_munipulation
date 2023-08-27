@@ -1,5 +1,5 @@
 #******************************************************************************
-# Copyright (C) 2017 by Alex Fosdick - University of Colorado
+# Copyright (C) 2017 by Stanley mwangi
 #
 # Redistribution, modification or use of this software in source or binary
 # forms is permitted as long as the files maintain this copyright. Users are 
@@ -24,18 +24,49 @@
 include sources.mk
 
 # Platform Overrides
-PLATFORM = 
+ifeq (&(PLATFORM),HOST)
+	# Architectures Specific Flags
+	LINKER_FILE = msp432p401r.lds
+	CPU = cortex-m4
+	ARCH = armv7e-m
+	SPECS = nosys.specs
 
-# Architectures Specific Flags
-LINKER_FILE = 
-CPU = 
-ARCH = 
-SPECS = 
+	# Compiler Flags and Defines
+	CC = arm-none-eabl-gcc
+	LD = arm-none-eabl-ld 
+	LDFLAGS = -wl,-Map=demo.map
+	CFLAGS =-Wall -Wextra
+	TARGET = out.a
 
-# Compiler Flags and Defines
-CC = 
-LD = 
-LDFLAGS = 
-CFLAGS = 
-CPPFLAGs = 
+else
+	
+	# Architectures Specific Flags
+	LINKER_FILE=msp432p401r.lds
+	CPU = 
+	ARCH = 
+	SPECS = 
+
+	# Compiler Flags and Defines
+	CC=gcc
+	LD=gcc
+	LDFLAGS=Wl,-wl,-Map=demo.map
+	CFLAGS=-Wall -Wextra -O0 -g -std=c99 $(INCLUDES)
+	TARGET = out.a
+
+endif
+
+.PHONY: all
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS) 
+
+%.o: %.c $(INCLUDES)
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+.PHONY: clean
+clean:
+	rm -rf *.o *.i *.map *.a
+
+
 

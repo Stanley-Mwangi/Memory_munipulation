@@ -10,8 +10,15 @@
 #*****************************************************************************
 
 # Add your Source files to this variable
-SOURCES =
+SOURCES= ./main.c \
+	     ./memory.c \
+		 
+
+OBJECTS= ./main.o \
+		 ./memory.o \
 
 # Add your include paths to this variable
-INCLUDES = 
+INCLUDES= \
+	-I../include/common
+	
 

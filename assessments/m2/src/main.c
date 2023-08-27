@@ -22,6 +22,7 @@
  */
 #include "platform.h"
 #include "memory.h"
+#include <stdio.h>
 
 #define MAX_LENGTH (10)
 char buffer[MAX_LENGTH];
@@ -46,9 +47,9 @@ int main(void) {
   set_value(buffer, 5, 0x5F);
 
   for ( i = 0; i < MAX_LENGTH; i++ ){
-    PRINTF("%c", buffer[i]);
+    printf("%c", buffer[i]);
   }
-  PRINTF("\n");
+  printf("\n");
   return 0;
 }
 
