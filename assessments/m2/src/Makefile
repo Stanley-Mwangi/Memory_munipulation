@@ -70,19 +70,19 @@ all: $(TARGET)
 $(TARGET): $(SOURCES)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $(TARGET) $^
 
-%.o: %.c $(INCLUDES)
-	$(CC) $(CFLAGS) -c -o $@ $^
+%.o: %.c 
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 %.asm: %.c 
 	$(CC) $(CFLAGS) -S -o $@ $<
 
-%.i: %.c $(INCLUDES) 
-	$(CC) -E $^ -o $@ 
+%.i: %.c 
+	$(CC) $(CFLAGS) -E -o $@  $^
 	
 .PHONY: compile
-compile: $(SOURCES)
-%.o: %.c $(INCLUDES)
-	$(CC) $(CFLAGS) -c -o $@ $^
+compile: $(OBJS)
+%.o: %.c 
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 .PHONY: clean
 clean:
